@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title>Circles</title>
+  <script type="text/javascript" src="paper-full.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.9/howler.js"></script>
+  <link rel="stylesheet" type="text/css" href="circles.css">
+  <script type="text/paperscript" canvas="myCanvas">
+
+
+  var keyData = {
+    q: {
+      sound: new Howl({
+        src: ['sounds/bubbles.mp3']
+      }),
+      color: '#1abc9c'
+    },
+    w: {
+      sound: new Howl({
+        src: ['sounds/clay.mp3']
+      }),
+      color: '#2ecc71'
+    },
+    e: {
+      sound: new Howl({
+        src: ['sounds/confetti.mp3']
+      }),
+      color: '#3498db'
+    },
+    r: {
+      sound: new Howl({
+        src: ['sounds/corona.mp3']
+      }),
+      color: '#9b59b6'
+    },
+    t: {
+      sound: new Howl({
+        src: ['sounds/dotted-spiral.mp3']
+      }),
+      color: '#34495e'
+    },
+    y: {
+      sound: new Howl({
+        src: ['sounds/flash-1.mp3']
+      }),
+      color: '#16a085'
+    },
+    u: {
+      sound: new Howl({
+        src: ['sounds/flash-2.mp3']
+      }),
+      color: '#27ae60'
+    },
+    i: {
+      sound: new Howl({
+        src: ['sounds/flash-3.mp3']
+      }),
+      color: '#2980b9'
+    },
+    o: {
+      sound: new Howl({
+        src: ['sounds/glimmer.mp3']
+      }),
+      color: '#8e44ad'
+    },
+    p: {
+      sound: new Howl({
+        src: ['sounds/moon.mp3']
+      }),
+      color: '#2c3e50'
+    },
+    a: {
+      sound: new Howl({
+        src: ['sounds/pinwheel.mp3']
+      }),
+      color: '#f1c40f'
+    },
+    s: {
+      sound: new Howl({
+        src: ['sounds/piston-1.mp3']
+      }),
+      color: '#e67e22'
+    },
+    d: {
+      sound: new Howl({
+        src: ['sounds/piston-2.mp3']
+      }),
+      color: '#e74c3c'
+    },
+    f: {
+      sound: new Howl({
+        src: ['sounds/prism-1.mp3']
+      }),
+      color: '#95a5a6'
+    },
+    g: {
+      sound: new Howl({
+        src: ['sounds/prism-2.mp3']
+      }),
+      color: '#f39c12'
+    },
+    h: {
+      sound: new Howl({
+        src: ['sounds/prism-3.mp3']
+      }),
+      color: '#d35400'
+    },
+    j: {
+      sound: new Howl({
+        src: ['sounds/splits.mp3']
+      }),
+      color: '#1abc9c'
+    },
+    k: {
+      sound: new Howl({
+        src: ['sounds/squiggle.mp3']
+      }),
+      color: '#2ecc71'
+    },
+    l: {
+      sound: new Howl({
+        src: ['sounds/strike.mp3']
+      }),
+      color: '#3498db'
+    },
+    z: {
+      sound: new Howl({
+        src: ['sounds/suspension.mp3']
+      }),
+      color: '#9b59b6'
+    },
+    x: {
+      sound: new Howl({
+        src: ['sounds/timer.mp3']
+      }),
+      color: '#34495e'
+    },
+    c: {
+      sound: new Howl({
+        src: ['sounds/ufo.mp3']
+      }),
+      color: '#16a085'
+    },
+    v: {
+      sound: new Howl({
+        src: ['sounds/veil.mp3']
+      }),
+      color: '#27ae60'
+    },
+    b: {
+      sound: new Howl({
+        src: ['sounds/wipe.mp3']
+      }),
+      color: '#2980b9'
+    },
+    n: {
+      sound: new Howl({
+        src: ['sounds/zig-zag.mp3']
+      }),
+      color: '#8e44ad'
+    },
+    m: {
+      sound: new Howl({
+        src: ['sounds/moon.mp3']
+      }),
+      color: '#2c3e50'
+    }
+  }
+
+  var circles = [];
+
+  function onKeyDown(event) {
+    if(keyData[event.key]){
+
+      var maxPoint = new Point(view.size.width, view.size.height);
+      var randomPoint = Point.random();
+      var point = maxPoint * randomPoint;
+      var newCircle = new Path.Circle(point, 100);
+      newCircle.fillColor = keyData[event.key].color;
+      keyData[event.key].sound.play();
+
+      circles.push(newCircle);
+    }
+  }
+
+  //var animatedCircle = new Path.Circle(new Point(300, 300), 100);
+  //animatedCircle.fillColor = "red";
+
+
+  function onFrame(event){
+    for(var i = 0; i < circles.length; i++){
+      circles[i].scale(0.9);
+      circles[i].fillColor.hue += 1;
+      if(circles[i].area < 1){
+        circles[i].remove(); // remove the circle from the canvas
+        circles.splice(i, 1); // remove the circle from the array
+        i--; // decrement i so that the loop doesn't skip a circle because of .splice()
+        console.log(circles);
+      }
+    }
+  }
+
+</script>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+  Click Here To Get Started
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Getting Started!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Press any key, A to Z</p>
+        <p>To record and stop recording, press spacebar</p>
+        <p>And to play it back, press shift</p>
+        <p>To loop, press enter</p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="#"><a href="circle.html">Home</a> <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><a href="about.html">About</a></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><a href="https://www.billboard.com/hip-hop-rap-r-and-b">The Scene</a></a>
+        </li>
+
+      </ul>
+    </div>
+  </nav>
+<!-- <div>
+<nav class="nav flex-column">
+    <a class="nav-link active" href="#">Active</a>
+    <a class="nav-link" href="#">Link</a>
+    <a class="nav-link" href="#">Link</a>
+    <a class="nav-link disabled" href="#">Disabled</a>
+
+</nav>
+</div> -->
+  <canvas id="myCanvas" resize>
+  </canvas>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+</body>
+</html>
